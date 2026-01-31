@@ -27,7 +27,7 @@ export default function PersonasTable({ personas, onRefresh }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-[#E5E9EC]">
-          {personas.map((p) => (
+          {Array.isArray(personas) && personas.map((p) => (
             <tr key={p.id} className="hover:bg-[#F7F9FA] transition-colors">
               <td className="p-4 font-medium text-[#1A202C]">
                 {p.nombres} {p.apellidos}

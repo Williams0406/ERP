@@ -83,7 +83,7 @@ export const createCodigoRegistro = async (personaId) => {
 // ------- REGISTRO USUARIO -------
 
 export const registerUsuario = async (payload) => {
-  const res = await api.post("/registro/", payload);
+  const res = await api.post("registro/", payload);
   return res.data;
 };
 

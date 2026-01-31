@@ -11,7 +11,7 @@ export default function UsuariosTable({ usuarios }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-[#E5E9EC]">
-          {usuarios.map((u) => (
+          {Array.isArray(usuarios) && usuarios.map((u) => (
             <tr 
               key={u.id} 
               className="hover:bg-[#F5F8FA] transition-colors duration-150 h-[42px]"
