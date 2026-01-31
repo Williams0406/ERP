@@ -2,10 +2,6 @@
 import axios from "axios";
 import { logout } from "./auth";
 
-export const onUnauthorized = (callback) => {
-  window.addEventListener("unauthorized", callback);
-};
-
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   "http://127.0.0.1:8000/api/";
@@ -14,10 +10,22 @@ const api = axios.create({
   baseURL: API_BASE_URL,
 });
 
+/* ================================
+   🔐 SSR SAFE UNAUTHORIZED HANDLER
+================================ */
+export const onUnauthorized = (callback) => {
+  if (typeof window !== "undefined") {
+    window.addEventListener("unauthorized", callback);
+  }
+};
+
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      typeof window !== "undefined"
+    ) {
       logout();
       window.dispatchEvent(new Event("unauthorized"));
     }
@@ -58,13 +66,6 @@ export const updatePersona = async (id, payload) => {
   return res.data;
 };
 
-// ------- USUARIOS -------
-
-export const getUsuariosCount = async () => {
-  const res = await api.get("usuarios/count/");
-  return res.data;
-};
-
 // ------- CÓDIGOS DE REGISTRO -------
 
 export const getCodigosRegistro = async () => {
@@ -82,7 +83,7 @@ export const createCodigoRegistro = async (personaId) => {
 // ------- REGISTRO USUARIO -------
 
 export const registerUsuario = async (payload) => {
-  const res = await api.post("../registro/", payload);
+  const res = await api.post("/registro/", payload);
   return res.data;
 };
 
