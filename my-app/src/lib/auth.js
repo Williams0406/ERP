@@ -1,15 +1,13 @@
 // lib/auth.js
 import axios from "axios";
-import api from "./api";
 
 const API_BASE =
   process.env.NEXT_PUBLIC_API_URL ||
-  "http://127.0.0.1:8000/api/";
+  "http://127.0.0.1:8000";
 
-const AUTH_BASE = API_BASE.replace("/api/", "");
 
 export const login = async (username, password) => {
-  const res = await axios.post(`${AUTH_BASE}/token/`, {
+  const res = await axios.post(`${API_BASE}/token/`, {
     username,
     password,
   });
